@@ -1,5 +1,6 @@
 from playwright.async_api import async_playwright
 import asyncio
+import pandas as pd
 
 async def scrape_data(url,browser,target):
     async with async_playwright() as ap:
