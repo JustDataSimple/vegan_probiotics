@@ -12,23 +12,6 @@ async def scrape_data(url,browser, click_target, click_selector_target):
         # Print the URL to verify the page is loaded
         print(f"Loaded URL: {url}")
         
-        # Query all elements matching the click_target selector
-        #click_results = await page.get_by_click(click_target,include_hidden=True).click
-        
-        # Print the number of elements found
-        #print(f"Found {len(click_results)} elements matching the selector '{click_target}'")
-
-        #if click_target:
-            #await click_results.click()
-            #print(f"Clicked on element with click: {click_target}")
-
-        #await page.wait_for_load_state()
-            #print()
-
-        #await page.wait_for_load_state('networkidle') 
-        #click_selector_result = await expect(page.query_by_selector(click_selector_target))
-        
-
         try:
             element = await page.query_selector(click_target)
             if element:
