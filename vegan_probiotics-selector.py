@@ -2,7 +2,7 @@ from playwright.async_api import async_playwright
 import asyncio
 import pandas as pd
 
-async def scrape_data(url,browser,target):
+async def scrape_data(url,browser,selector_target):
     async with async_playwright() as ap:
 
         browser_instance = await ap[browser].launch()
@@ -12,24 +12,24 @@ async def scrape_data(url,browser,target):
         # Print the URL to verify the page is loaded
         print(f"Loaded URL: {url}")
         
-        # Query all elements matching the target selector
-        targets = await page.query_selector_all(target)
+        # Query all elements matching the selector_target selector
+        selector_results = await page.query_selector_all(selector_target)
         
         # Print the number of elements found
-        print(f"Found {len(targets)} elements matching the selector '{target}'")
+        print(f"Found {len(selector_results)} elements matching the selector '{selector_target}'")
 
-        for t in targets:
-            text = print(await t.text_content())
+        for t in selector_results:
+            results_text = print(await t.text_content())
         await browser_instance.close()
-        return text
+        return results_text
 
 if __name__ == "__main__":
     url = 'https://playwright.dev/'
     browser = 'firefox'    
-    target = 'script'
+    selector_target = 'script'
 
     loop = asyncio.get_event_loop()
     try:
-        loop.run_until_complete(scrape_data(url, browser, target))
+        loop.run_until_complete(scrape_data(url, browser, selector_target))
     finally:
         loop.close()
