@@ -12,30 +12,38 @@ async def scrape_data(url,browser, click_target, click_selector_target):
         print(f"Loaded URL: {url}")
         
         try:
-            element = await page.query_selector(click_target)
-            if element:
-                await element.click()
-                print(f"Clicked on element with selector: {click_target}")
-            else:
-                print(f"Element with selector {click_target} not found")
-        except Exception as e:
-            print(f"Error clicking element: {e}")
+            element = await page.query_selector_all(click_target)
+            print(f"{len(elements)} elements contained: {click_target}")
+            
+            el = 0
+            all_elements = []
 
-        await page.wait_for_load_state('networkidle')
+            While len(elements) > el:
+                if element:
+                    await element.click()
+                    print(f"Clicked on element with selector: {click_target}")
+                else:
+                    print(f"Element with selector {click_target} not found")
+            except Exception as e:
+                print(f"Error clicking element: {e}")
 
-        click_selector_result = await page.query_selector_all(click_selector_target)
+                #await page.wait_for_load_state('networkidle')
 
-        for r in click_selector_result:
+                #click_selector_result = await page.query_selector_all(click_selector_target)
+                all_elements.append(click_selector_result)
+                el =+ 1
+
+            for r in all_elements:
             click_selector_text = print(await r.text_content())
         
         await browser_instance.close()
         return click_selector_text
 
 if __name__ == "__main__":
-    url = 'https://playwright.dev/'
+    url = 'https://www.healthyplanetcanada.com/catalogsearch/result/?q=vegan+probiotics&rows=160&page=1'
     browser = 'firefox'    
-    click_target = 'a.getStarted_Sjon[href="/docs/intro"]'
-    click_selector_target = 'p'
+    click_target = 'li.item.product.product-item.item-product'
+    click_selector_target = 'div.product.info.main'
 
     loop = asyncio.get_event_loop()
     try:
