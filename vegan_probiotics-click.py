@@ -9,7 +9,6 @@ async def scrape_data(url,browser, click_target, click_selector_target):
         page = await browser_instance.new_page()
         await page.goto(url)
 
-        # Print the URL to verify the page is loaded
         print(f"Loaded URL: {url}")
         
         try:
