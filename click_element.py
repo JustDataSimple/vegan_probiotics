@@ -9,14 +9,17 @@ async def click_links(url, browser, click_target):
             
             browser_instance = await ap[browser].launch()
             page = await browser_instance.new_page()
-            website = await page.goto(url)
-            print(website)
+            response = await page.goto(url)
+            print(f"Response status: {response.status if response else 'No response'}")
             
-            if website == url:
+            if response == 200:
            
                 links = await page.query_selector_all(click_target)
+                print(f"Number of links found: {len(links)}")
+            else:
+                print(f'Could not obtain link using: {click_target}')
 
-                for link in links:
+            for link in links:
                     new_urls = []
                     print(f"The number of links is: {range(len(links))}")
                     await links.click()
