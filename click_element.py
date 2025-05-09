@@ -2,7 +2,7 @@ from playwright.async_api import async_playwright
 import asyncio
 
 
-async def click_links(url, browser, click_target):
+async def click_links(url, browser, link_element, click_target):
     async with async_playwright() as ap:
 
         try:
@@ -13,13 +13,19 @@ async def click_links(url, browser, click_target):
             print(f"Response status: {response.status if response else 'No response'}")
             
             if response == 200:
-           
-                links = await page.query_selector_all(click_target)
-                print(f"Number of links found: {len(links)}")
-            else:
-                print(f'Could not obtain link using: {click_target}')
+                link_elements = await page.query_selector_all(link_element)
+                print(f"Number of elements found: {len(link_elements)}")
+                    for element in link_elements:
+                        link_target = await page.query_selector(click_target)
+                        print(f'found link at: {click_target}')
+                    break
 
-            for link in links:
+            
+            else:
+                print(f'Could not obtain link using: {link_elements}')
+
+            for element in link_element:
+
                     new_urls = []
                     print(f"The number of links is: {range(len(links))}")
                     await links.click()
@@ -36,7 +42,8 @@ async def click_links(url, browser, click_target):
 if __name__ == "__main__":
     url = 'https://www.healthyplanetcanada.com/catalogsearch/result/?q=vegan+probiotics&rows=160&page=1'
     browser = 'firefox'    
-    click_target = 'strong.product.name.product-item-name, a.product-item-link'
+    link_element = 'li.product'
+    click_target = 'li.product > div > a'
 
     loop = asyncio.get_event_loop()
     try:
