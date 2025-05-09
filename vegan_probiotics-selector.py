@@ -6,10 +6,10 @@ async def scrape_data(url,browser,target):
 
         browser_instance = await ap[browser].launch()
         page = await browser_instance.new_page()
-        await page.goto(url)
+        website = await page.goto(url)
 
         # Print the URL to verify the page is loaded
-        print(f"Loaded URL: {url}")
+        print(f"Loaded URL: {website}")
         
         # Query all elements matching the target selector
         targets = await page.query_selector_all(target)
