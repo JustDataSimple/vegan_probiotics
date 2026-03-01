@@ -1,2 +1,2 @@
-# vegan_probiotics-DA-WS
+# vegan_probiotics
 web-scraping project
